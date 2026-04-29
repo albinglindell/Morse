@@ -50,6 +50,24 @@ export const CODE_TO_LETTER: Record<string, string> = MORSE_NODES.reduce(
   {} as Record<string, string>,
 )
 
+export const LETTER_TO_CODE: Record<string, string> = MORSE_NODES.reduce(
+  (acc, node) => {
+    acc[node.letter] = node.code
+    return acc
+  },
+  {} as Record<string, string>,
+)
+
+export const textToMorse = (text: string): string =>
+  text
+    .toUpperCase()
+    .split('')
+    .map((char) => {
+      if (char === ' ') return '/'
+      return LETTER_TO_CODE[char] ?? '?'
+    })
+    .join(' ')
+
 export const getNodeByCode = (code: string): MorseNode | undefined =>
   MORSE_NODES.find((node) => node.code === code)
 
