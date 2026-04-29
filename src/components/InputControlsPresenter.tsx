@@ -129,23 +129,13 @@ const InputControlsPresenter = ({
               : 'border-trace bg-trace text-slate-900'
             : 'border-board-edge bg-board-elev text-trace active:bg-board',
         ].join(' ')}
-        onMouseDown={onPressStartHandler}
-        onMouseUp={onPressEndHandler}
-        onMouseLeave={() => {
-          if (pressStartRef.current != null) onPressEndHandler()
-        }}
-        onTouchStart={(event) => {
-          event.preventDefault()
+        onPointerDown={(event) => {
+          event.currentTarget.setPointerCapture(event.pointerId)
           onPressStartHandler()
         }}
-        onTouchEnd={(event) => {
-          event.preventDefault()
-          onPressEndHandler()
-        }}
-        onTouchCancel={(event) => {
-          event.preventDefault()
-          onPressEndHandler()
-        }}
+        onPointerUp={onPressEndHandler}
+        onPointerCancel={onPressEndHandler}
+        onContextMenu={(event) => event.preventDefault()}
       >
         <span className="leading-none">
           {isHolding ? (willBeDash ? 'DASH —' : 'HOLD…') : 'TAP / HOLD'}
